@@ -1,3 +1,26 @@
-h1{
+body
+{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h1
+{
     color: blue;
+}
+
+h2
+{
+    color: aqua;
+}
+
+th,
+td
+{
+    font-size: 18pt;
+
+    width: 50px;
+    height: 50px;
+
+    border: solid 1px;
+    border-radius: 5px;
 }
