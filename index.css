@@ -1,21 +1,43 @@
 body
 {
     font-family: 'Times New Roman', Times, serif;
+
+    color: antiquewhite;
+    background-color: #37474f;
 }
 
-h1
+table
 {
-    color: blue;
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 1900px;
 }
 
 th,
 td
 {
     font-size: 18pt;
+    /* width: 1000px; */
+    /* height: 100px; */
 
-    width: 50px;
-    height: 50px;
+    padding: 10px;
 
     border: solid 1px;
-    border-radius: 5px;
+    /* border-radius: 5px; */
+}
+
+tr :hover
+{
+    background-color: #455a64;
+}
+
+.AtomicNumber
+{
+    font-size: 11pt;
+}
+
+.Element
+{
+    /* text-align: center; */
+    font-size: 11pt;
 }
