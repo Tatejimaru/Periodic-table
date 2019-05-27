@@ -44,7 +44,7 @@ const make_table_container = (el, table) => {
             table_container += "<tr>";
         }
 
-        table_container += "<td>";
+        table_container += "<td class='Group" + element_Group +"'>";
         table_container += "<span class='AtomicNumber'>" + e.AtomicNumber + "</span>";
         table_container += " ";
         table_container += "<span class='Symbol'>" + e.Symbol + "</span>";
@@ -59,6 +59,45 @@ const make_table_container = (el, table) => {
         prev_element_Group = element_Group;
     }
     el.insertAdjacentHTML("beforeend", table_container);
+}
+
+const make_splash_actual = (start, step) => {
+    const speed = 30;
+    const end = 18;
+    const loop = i => {
+        remove_class(i - step, "splash");
+        if (i == end) 
+        {
+            return;
+        };
+        add_class(i, "splash");
+        setTimeout(loop, speed, i + step);
+    }
+    loop(start);
+}
+
+const make_splash = x => {
+    make_splash_actual(x, 1);
+}
+
+const make_splash_reverse = x => {
+    make_splash_actual(x, -1);
+}
+
+const remove_class = (x, className) => {
+    const qry = ".Group" + x;
+    const el = document.querySelectorAll(qry);
+    for (let e of el) 
+    {
+        e.classList.remove(className);
+    }
+}
+const add_class = (x, className) => {
+    const qry = ".Group" + x;
+    const el = document.querySelectorAll(qry);
+    for (let e of el) {
+        e.classList.add(className);
+    }
 }
 
 const get_table = () => {
@@ -3608,3 +3647,19 @@ const get_table = () => {
 }
 
 main();
+
+const el_arr = document.querySelectorAll("td");
+for (const td of el_arr){
+    td.addEventListener("click", event => {
+        let target = event.target;
+        while (target.tagName != "TD")
+        {
+            target = target.parentNode;
+            console.log(target.tagName);
+        }
+        const Group_class = target.classList[0];
+        const Group = Number(Group_class.replace(/[^0-9]/g, ""));
+        make_splash(Group);
+        make_splash_reverse(Group);
+    }, false);
+}

@@ -10,7 +10,7 @@ table
 {
     table-layout: fixed;
     border-collapse: collapse;
-    width: 1900px;
+    width: 1700px;
 }
 
 th,
@@ -24,6 +24,7 @@ td
 
     border: solid 1px;
     /* border-radius: 5px; */
+    cursor : pointer;
 }
 
 tr :hover
@@ -40,4 +41,9 @@ tr :hover
 {
     /* text-align: center; */
     font-size: 11pt;
+}
+
+.splash
+{
+    background-color: aquamarine;
 }
