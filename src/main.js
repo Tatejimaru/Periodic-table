@@ -40,7 +40,7 @@ const make_table_container = table => {
         const empty_td = '<td class="empty">+</td>'; 
         const get_element_td = (e, x, y) =>{
             let element_td = "";
-            element_td += `<td data-x="${x}" data-y="${y}">`;
+            element_td += `<td data-x="${x}" data-y="${y}" data-type="${e.Type}">`;
             element_td += `<span class='AtomicNumber'>${e.AtomicNumber}</span> `;
             element_td += `<span class='Symbol'>${e.Symbol}</span><br>`;
             element_td += `<span class='Element'>${e.Element}</span></td>`;
@@ -58,7 +58,7 @@ const make_table_container = table => {
                 x_position = start;
             }
             const x = x_position;
-            const y = (e.Element == "Actinium") ? 1 : 2;
+            const y = (e.Type == "Lanthanide") ? 8 : 9;
             table_container_laac += get_element_td(e, x, y);
             x_position++;
         } else {
@@ -2676,7 +2676,7 @@ const get_table = () => {
             "Metal": "",
             "Nonmetal": "yes",
             "Metalloid": "",
-            "Type": "Noble Gas",
+            "Type": "Halogen",
             "AtomicRadius": "1.4",
             "Electronegativity": "2.2",
             "FirstIonization": "9.3",
@@ -2736,7 +2736,7 @@ const get_table = () => {
             "Metal": "yes",
             "Nonmetal": "",
             "Metalloid": "",
-            "Type": "Alkaline Earth Metal",
+            "Type": "Alkali Metal",
             "AtomicRadius": "",
             "Electronegativity": "0.7",
             "FirstIonization": "4.0727",

@@ -9,9 +9,11 @@ body
 
 table
 {
+    width: 1350px;
+
     table-layout: fixed;
     border-collapse: collapse;
-    width: 1350px;
+
     border: solid 3px antiquewhite;
 }
 
@@ -21,23 +23,13 @@ td
     /* font-size: 18pt; */
     /* width: 1000px; */
     /* height: 100px; */
-
     padding: 15px 3px;
 
-    border: solid 1px antiquewhite;
+    cursor: pointer;
     text-align: center;
-    cursor : pointer;
-}
 
-tr :hover
-{
-    background-color: #37474f;
+    border: solid 1px antiquewhite;
 }
-
-/* .empty
-{
-    ;
-} */
 
 .Symbol
 {
@@ -54,8 +46,120 @@ tr :hover
     font-size: 8pt;
 }
 
-.splash
+tr :hover
 {
-    background-color: #37474f;
-    color: aquamarine;
+    background-color: #37474f; 
+    /* color: aquamarine; */
 }
+
+.splash[data-y="1"]
+{
+    color: #f44336;
+    border-color: #f44336;
+}
+.splash[data-y="2"]
+{
+    color: #ff9800;
+    border-color: #ff9800;
+}
+.splash[data-y="3"]
+{
+    color: #ffeb3b;
+    border-color: #ffeb3b;
+}
+.splash[data-y="4"]
+{
+    color: #4caf50;
+    border-color: #4caf50;
+}
+.splash[data-y="5"]
+{
+    color: #00bcd4;
+    border-color: #00bcd4;
+}
+.splash[data-y="6"]
+{
+    color: #2196f3;
+    border-color: #2196f3;
+}
+.splash[data-y="7"]
+{
+    color: #3f51b5;
+    border-color: #3f51b5;
+}
+.splash[data-y="8"]
+{
+    color: #673ab7;
+    border-color: #673ab7;
+}
+.splash[data-y="9"]
+{
+    color: #9c27b0;
+    border-color: #9c27b0;
+}
+/* 
+.splash[data-Type='Nonmetal']
+{
+    color: #00bcd4;
+    border-color: #00bcd4;
+}
+
+.splash[data-Type='Noble Gas']
+{
+    color: #e91e63;
+    border-color: #e91e63;
+}
+
+.splash[data-Type='Alkali Metal']
+{
+    color: #ff5722;
+    border-color: #ff5722;
+}
+
+.splash[data-Type='Alkaline Earth Metal']
+{
+    color: #ff9800;
+    border-color: #ff9800;
+}
+
+.splash[data-Type='Metalloid']
+{
+    color: #009688;
+    border-color: #009688;
+}
+
+.splash[data-Type='Halogen']
+{
+    color: #4caf50;
+    border-color: #4caf50;
+}
+
+.splash[data-Type='Metal']
+{
+    color: #03a9f4;
+    border-color: #03a9f4;
+}
+
+.splash[data-Type='Transition Metal']
+{
+    color: #ffeb3b;
+    border-color: #ffeb3b;
+}
+
+.splash[data-Type='Transactinide']
+{
+    color: #cddc39;
+    border-color: #cddc39;
+}
+
+.splash[data-Type='Lanthanide']
+{
+    color: #2196f3;
+    border-color: #2196f3;
+}
+
+.splash[data-Type='Actinide']
+{
+    color: #3f51b5;
+    border-color: #3f51b5;
+} */
