@@ -36,8 +36,9 @@ const make_table_container = table => {
 
     for (const e of table) {
         const empty_td = '<td class="empty">+</td>'; 
-        const get_element_td = e =>{
-            let element_td = `<td class='Group${e.Group}'>`;
+        const get_element_td = (e, x, y) =>{
+            let element_td = "";
+            element_td += `<td class='x_${x} y_${y}'>`;
             element_td += `<span class='AtomicNumber'>${e.AtomicNumber}</span> `;
             element_td += `<span class='Symbol'>${e.Symbol}</span><br>`;
             element_td += `<span class='Element'>${e.Element}</span></td>`;
@@ -52,7 +53,9 @@ const make_table_container = table => {
                     table_container_laac += empty_td;
                 }
             }
-            table_container_laac += get_element_td(e);
+            const x = 0;
+            const y = (e.Element == "Actinium") ? 1 : 2;
+            table_container_laac += get_element_td(e, x, y);
         } else {
             if (prev_Period != 0 && e.Period - prev_Period > 0) {
                 table_container_main += "</tr><tr>"
@@ -65,7 +68,9 @@ const make_table_container = table => {
                     Group_gap--;
                 }
             }
-            table_container_main += get_element_td(e);
+            const x = e.Group;
+            const y = e.Period;
+            table_container_main += get_element_td(e, x, y);
 
             prev_Period = e.Period;
             prev_Group = e.Group;
@@ -76,20 +81,33 @@ const make_table_container = table => {
     return [table_container_main, table_container_laac];
 };
 
+const splash = (group, action) => {
+    const className = "splash";
+    const el = document.querySelectorAll(`.x_${group}`);
+    for (let e of el) {
+        if (action == "add") {
+            e.classList.add(className);
+        } else if (action == "remove") {
+            e.classList.remove(className);
+        }
+    }
+};
+
 const make_splash_actual = (start, step) => {
     const speed = 100;
     const end = 18;
     const loop = i => {
-        remove_td_class(i - step, "splash");
-        if (i == end) 
-        {
-            return;
-        };
-        add_td_class(i, "splash");
-        setTimeout(loop, speed, i + step);
+        splash(i, "add");
+        splash(i - step, "remove");
+        if (i >= 1 && i <= end){
+            setTimeout(loop, speed, i + step);
+        } else {
+            splash(i, "remove");
+        }
     };
     loop(start);
 };
+
 
 const make_splash = position => {
     make_splash_actual(position, 1);
@@ -97,23 +115,6 @@ const make_splash = position => {
 
 const make_splash_reverse = position => {
     make_splash_actual(position, -1);
-};
-
-const remove_td_class = (group, className) => {
-    const qry = `.Group${group}`;
-    const el = document.querySelectorAll(qry);
-    for (let e of el) 
-    {
-        e.classList.remove(className);
-    }
-};
-
-const add_td_class = (group, className) => {
-    const qry = `.Group${group}`;
-    const el = document.querySelectorAll(qry);
-    for (let e of el) {
-        e.classList.add(className);
-    }
 };
 
 const add_click_action = () => {
@@ -124,16 +125,19 @@ const add_click_action = () => {
             while (target.tagName != "TD")
             {
                 target = target.parentNode;
-                console.log(target.tagName);
             }
-            const Group_class = target.classList[0];
-            if (Group_class == "empty")
+
+            let x_classname = "0";
+            for (const class_name of target.classList)
             {
-                return;
+                if (class_name.includes("x_")){
+                    x_classname = class_name;
+                    break;
+                }
             }
-            const Group = Number(Group_class.replace(/[^0-9]/g, ""));
-            make_splash(Group);
-            make_splash_reverse(Group);
+            const position = Number(x_classname.replace(/[^0-9]/g, ""));
+            make_splash(position);
+            make_splash_reverse(position);
         }, false);
     }
 };
