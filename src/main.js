@@ -2,12 +2,12 @@
 
 const main = () => {
     const table = get_table();
-    console.log(table);
-
     const el = document.querySelector("#elements");
-
+    
     make_table_header(el);
     make_table_container(el, table);
+    
+    add_click_action();
 }
 
 const make_table_header = el => {
@@ -16,35 +16,35 @@ const make_table_header = el => {
         table_header += "<th>" + group + "</th>";
     }
     table_header += "</tr>";
+    
     el.insertAdjacentHTML("beforeend", table_header);
 };
 
 const make_table_container = (el, table) => {
+    const table_container = make_table_container_actual(table);
+    el.insertAdjacentHTML("beforeend", table_container);
+}
+
+const make_table_container_actual = table => {
     let table_container = "";
     let prev_element_Group = "";
 
-    for (const e of table)
-    {
-        if (e.Type == "Lanthanide" || e.Type == "Actinide")
-        {
+    for (const e of table) {
+        if (e.Type == "Lanthanide" || e.Type == "Actinide") {
             continue;
         }
-        const element_Group = e.Group;
-        let Group_gap = element_Group - prev_element_Group;
-        if (Group_gap > 1)
-        {
-            while (Group_gap > 1)
-            {
+        let Group_gap = e.Group - prev_element_Group;
+        if (Group_gap > 1) {
+            while (Group_gap > 1) {
                 table_container += "<td></td>";
                 Group_gap--;
             }
         }
-        if (element_Group == "1")
-        {
+        if (e.Group == "1") {
             table_container += "<tr>";
         }
 
-        table_container += "<td class='Group" + element_Group +"'>";
+        table_container += "<td class='Group" + e.Group + "'>";
         table_container += "<span class='AtomicNumber'>" + e.AtomicNumber + "</span>";
         table_container += " ";
         table_container += "<span class='Symbol'>" + e.Symbol + "</span>";
@@ -52,17 +52,16 @@ const make_table_container = (el, table) => {
         table_container += "<span class='Element'>" + e.Element + "</span>";
         table_container += "</td>";
 
-        if (element_Group == "18")
-        {
+        if (e.Group == "18") {
             table_container += "</tr>";
         }
-        prev_element_Group = element_Group;
+        prev_element_Group = e.Group;
     }
-    el.insertAdjacentHTML("beforeend", table_container);
+    return table_container;
 }
 
 const make_splash_actual = (start, step) => {
-    const speed = 30;
+    const speed = 100;
     const end = 18;
     const loop = i => {
         remove_class(i - step, "splash");
@@ -3646,20 +3645,22 @@ const get_table = () => {
     return table;
 }
 
-main();
-
-const el_arr = document.querySelectorAll("td");
-for (const td of el_arr){
-    td.addEventListener("click", event => {
-        let target = event.target;
-        while (target.tagName != "TD")
-        {
-            target = target.parentNode;
-            console.log(target.tagName);
-        }
-        const Group_class = target.classList[0];
-        const Group = Number(Group_class.replace(/[^0-9]/g, ""));
-        make_splash(Group);
-        make_splash_reverse(Group);
-    }, false);
+const add_click_action = () => {
+    const el_arr = document.querySelectorAll("td");
+    for (const td of el_arr){
+        td.addEventListener("click", event => {
+            let target = event.target;
+            while (target.tagName != "TD")
+            {
+                target = target.parentNode;
+                console.log(target.tagName);
+            }
+            const Group_class = target.classList[0];
+            const Group = Number(Group_class.replace(/[^0-9]/g, ""));
+            make_splash(Group);
+            make_splash_reverse(Group);
+        }, false);
+    }
 }
+
+main();
