@@ -34,11 +34,13 @@ const make_table_container = table => {
     let prev_Period = 0;
     let prev_Group = 0;
 
+    let x_position = 0;
+
     for (const e of table) {
         const empty_td = '<td class="empty">+</td>'; 
         const get_element_td = (e, x, y) =>{
             let element_td = "";
-            element_td += `<td class='x_${x} y_${y}'>`;
+            element_td += `<td data-x="${x}" data-y="${y}">`;
             element_td += `<span class='AtomicNumber'>${e.AtomicNumber}</span> `;
             element_td += `<span class='Symbol'>${e.Symbol}</span><br>`;
             element_td += `<span class='Element'>${e.Element}</span></td>`;
@@ -49,13 +51,16 @@ const make_table_container = table => {
                 table_container_laac += "</tr><tr>";
             }
             if (e.Element == "Lanthanum" || e.Element == "Actinium") {
-                for (let i = 0; i < 3; ++i) {
+                const start = 4;
+                for (let i = 1; i < start; ++i) {
                     table_container_laac += empty_td;
                 }
+                x_position = start;
             }
-            const x = 0;
+            const x = x_position;
             const y = (e.Element == "Actinium") ? 1 : 2;
             table_container_laac += get_element_td(e, x, y);
+            x_position++;
         } else {
             if (prev_Period != 0 && e.Period - prev_Period > 0) {
                 table_container_main += "</tr><tr>"
@@ -83,7 +88,7 @@ const make_table_container = table => {
 
 const splash = (group, action) => {
     const className = "splash";
-    const el = document.querySelectorAll(`.x_${group}`);
+    let el = document.querySelectorAll(`td[data-x="${group}"]`);
     for (let e of el) {
         if (action == "add") {
             e.classList.add(className);
@@ -126,16 +131,7 @@ const add_click_action = () => {
             {
                 target = target.parentNode;
             }
-
-            let x_classname = "0";
-            for (const class_name of target.classList)
-            {
-                if (class_name.includes("x_")){
-                    x_classname = class_name;
-                    break;
-                }
-            }
-            const position = Number(x_classname.replace(/[^0-9]/g, ""));
+            const position = Number(target.dataset.x);
             make_splash(position);
             make_splash_reverse(position);
         }, false);
