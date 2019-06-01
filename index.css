@@ -11,21 +11,21 @@ table
 {
     table-layout: fixed;
     border-collapse: collapse;
-    width: 1700px;
+    width: 1350px;
     border: solid 3px antiquewhite;
 }
 
 th,
 td
 {
-    font-size: 18pt;
+    /* font-size: 18pt; */
     /* width: 1000px; */
     /* height: 100px; */
 
-    padding: 10px;
+    padding: 15px 3px;
 
     border: solid 1px antiquewhite;
-    /* border-radius: 5px; */
+    text-align: center;
     cursor : pointer;
 }
 
@@ -34,15 +34,24 @@ tr :hover
     background-color: #37474f;
 }
 
+/* .empty
+{
+    ;
+} */
+
+.Symbol
+{
+    font-size: 16pt;
+}
+
 .AtomicNumber
 {
-    font-size: 11pt;
+    font-size: 9pt;
 }
 
 .Element
 {
-    /* text-align: center; */
-    font-size: 10pt;
+    font-size: 8pt;
 }
 
 .splash

@@ -1,103 +1,142 @@
 "use strict";
 
 const main = () => {
-    const table = get_table();
-    const el = document.querySelector("#elements");
+    const el_main = document.querySelector("#elements");
+    const el_laac = document.querySelector("#laac");
     
-    make_table_header(el);
-    make_table_container(el, table);
+    const table_header = make_table_header(18);
+    el_main.insertAdjacentHTML("beforeend", table_header);
+    
+    const table = get_table();
+    let table_container_main = "";
+    let table_container_laac = "";
+    [table_container_main, table_container_laac] = make_table_container(table);
+
+    el_main.insertAdjacentHTML("beforeend", table_container_main);
+    el_laac.insertAdjacentHTML("beforeend", table_container_laac);
     
     add_click_action();
-}
+};
 
-const make_table_header = el => {
+const make_table_header = cln_size => {
     let table_header = "<tr>";
-    for (let group = 1; group <= 18; ++group) {
+    for (let group = 1; group <= cln_size; ++group) {
         table_header += "<th>" + group + "</th>";
     }
     table_header += "</tr>";
-    
-    el.insertAdjacentHTML("beforeend", table_header);
+    return table_header
 };
 
-const make_table_container = (el, table) => {
-    const table_container = make_table_container_actual(table);
-    el.insertAdjacentHTML("beforeend", table_container);
-}
-
-const make_table_container_actual = table => {
-    let table_container = "";
-    let prev_element_Group = "";
+const make_table_container = table => {
+    let table_container_main = "<tr>";
+    let table_container_laac = "<tr>";
+    
+    let prev_Period = 0;
+    let prev_Group = 0;
 
     for (const e of table) {
+        const empty_td = '<td class="empty">+</td>'; 
+        const get_element_td = e =>{
+            let element_td = `<td class='Group${e.Group}'>`;
+            element_td += `<span class='AtomicNumber'>${e.AtomicNumber}</span> `;
+            element_td += `<span class='Symbol'>${e.Symbol}</span><br>`;
+            element_td += `<span class='Element'>${e.Element}</span></td>`;
+            return element_td;
+        }
         if (e.Type == "Lanthanide" || e.Type == "Actinide") {
-            continue;
-        }
-        let Group_gap = e.Group - prev_element_Group;
-        if (Group_gap > 1) {
-            while (Group_gap > 1) {
-                table_container += "<td></td>";
-                Group_gap--;
+            if (e.Element == "Actinium"){
+                table_container_laac += "</tr><tr>";
             }
-        }
-        if (e.Group == "1") {
-            table_container += "<tr>";
-        }
+            if (e.Element == "Lanthanum" || e.Element == "Actinium") {
+                for (let i = 0; i < 3; ++i) {
+                    table_container_laac += empty_td;
+                }
+            }
+            table_container_laac += get_element_td(e);
+        } else {
+            if (prev_Period != 0 && e.Period - prev_Period > 0) {
+                table_container_main += "</tr><tr>"
+            }
 
-        table_container += "<td class='Group" + e.Group + "'>";
-        table_container += "<span class='AtomicNumber'>" + e.AtomicNumber + "</span>";
-        table_container += " ";
-        table_container += "<span class='Symbol'>" + e.Symbol + "</span>";
-        table_container += "<br>";
-        table_container += "<span class='Element'>" + e.Element + "</span>";
-        table_container += "</td>";
+            let Group_gap = e.Group - prev_Group;
+            if (Group_gap > 1) {
+                while (Group_gap > 1) {
+                    table_container_main += empty_td;
+                    Group_gap--;
+                }
+            }
+            table_container_main += get_element_td(e);
 
-        if (e.Group == "18") {
-            table_container += "</tr>";
+            prev_Period = e.Period;
+            prev_Group = e.Group;
         }
-        prev_element_Group = e.Group;
     }
-    return table_container;
-}
+    table_container_main += "</tr>";
+    table_container_laac += "</tr>";
+    return [table_container_main, table_container_laac];
+};
 
 const make_splash_actual = (start, step) => {
     const speed = 100;
     const end = 18;
     const loop = i => {
-        remove_class(i - step, "splash");
+        remove_td_class(i - step, "splash");
         if (i == end) 
         {
             return;
         };
-        add_class(i, "splash");
+        add_td_class(i, "splash");
         setTimeout(loop, speed, i + step);
-    }
+    };
     loop(start);
-}
+};
 
-const make_splash = x => {
-    make_splash_actual(x, 1);
-}
+const make_splash = position => {
+    make_splash_actual(position, 1);
+};
 
-const make_splash_reverse = x => {
-    make_splash_actual(x, -1);
-}
+const make_splash_reverse = position => {
+    make_splash_actual(position, -1);
+};
 
-const remove_class = (x, className) => {
-    const qry = ".Group" + x;
+const remove_td_class = (group, className) => {
+    const qry = `.Group${group}`;
     const el = document.querySelectorAll(qry);
     for (let e of el) 
     {
         e.classList.remove(className);
     }
-}
-const add_class = (x, className) => {
-    const qry = ".Group" + x;
+};
+
+const add_td_class = (group, className) => {
+    const qry = `.Group${group}`;
     const el = document.querySelectorAll(qry);
     for (let e of el) {
         e.classList.add(className);
     }
-}
+};
+
+const add_click_action = () => {
+    const el_arr = document.querySelectorAll("td");
+    for (const td of el_arr){
+        td.addEventListener("click", event => {
+            let target = event.target;
+            while (target.tagName != "TD")
+            {
+                target = target.parentNode;
+                console.log(target.tagName);
+            }
+            const Group_class = target.classList[0];
+            if (Group_class == "empty")
+            {
+                return;
+            }
+            const Group = Number(Group_class.replace(/[^0-9]/g, ""));
+            make_splash(Group);
+            make_splash_reverse(Group);
+        }, false);
+    }
+};
 
 const get_table = () => {
     const table = [
@@ -3643,24 +3682,6 @@ const get_table = () => {
         }
     ];
     return table;
-}
-
-const add_click_action = () => {
-    const el_arr = document.querySelectorAll("td");
-    for (const td of el_arr){
-        td.addEventListener("click", event => {
-            let target = event.target;
-            while (target.tagName != "TD")
-            {
-                target = target.parentNode;
-                console.log(target.tagName);
-            }
-            const Group_class = target.classList[0];
-            const Group = Number(Group_class.replace(/[^0-9]/g, ""));
-            make_splash(Group);
-            make_splash_reverse(Group);
-        }, false);
-    }
-}
+};
 
 main();
