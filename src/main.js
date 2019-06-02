@@ -16,17 +16,18 @@ const main = () => {
     el.laac.insertAdjacentHTML("beforeend", table_container.laac);
     
     add_click_action();
+
+    make_splash(3);
     make_splash(2);
     make_splash(1);
 };
 
 const make_table_header = cln_size => {
-    let table_header = "<tr>";
+    let table_header = "";
     for (let group = 1; group <= cln_size; ++group) {
-        table_header += "<th>" + group + "</th>";
+        table_header += `<th>${group}</th>`;
     }
-    table_header += "</tr>";
-    return table_header
+    return `<tr>${table_header}</tr>`
 };
 
 const make_table_container = table => {
@@ -37,81 +38,72 @@ const make_table_container = table => {
             this.y = y;
             this.table_container = "";
         };
-        get_empty_td(x, y) {
-            const empty_td = `<td data-x="${x}" data-y="${y}" data-type="empty">+</td>`
-            return empty_td;
-        }; 
-        get_element_td(el, x, y){
+        push_element_td(el){
             let element_td = "";
-            element_td += `<td data-x="${x}" data-y="${y}" data-type="${el.Type}">`;
+            element_td += `<td data-x="${this.x}" data-y="${this.y}" data-type="${el.Type}">`;
             element_td += `<span class='AtomicNumber'>${el.AtomicNumber}</span> `;
             element_td += `<span class='Symbol'>${el.Symbol}</span><br>`;
             element_td += `<span class='Element'>${el.Element}</span></td>`;
-            return element_td;
+            this.table_container += element_td;
+            
+            const next = () => {
+                if (this.x < 18) {
+                    this.x++;
+                } else {
+                    this.table_container += "</tr><tr>"
+                    this.x = 1;
+                    this.y++;
+                };
+            };
+            next();
         };
+        push_empty_td() {
+            const empty_td = `<td data-x="${this.x}" data-y="${this.y}" data-type="empty">+</td>`
+            this.table_container += empty_td;
+
+            this.x++;
+        }; 
     };
+    
     class main_table extends html_table {
         constructor(x, y) {
             super(x, y);
         };
-        push_element(el) {
-            if (this.x == 18) {
-                this.table_container += "</tr><tr>"
-                this.x = 1;
-                this.y++;
-            } else {
-                this.x++;
-            }
-            
+        push_table_container(el) {
             while (this.x < el.Group) {
-                this.table_container += super.get_empty_td(this.x, this.y);
-                this.x++;
-            }
-            this.table_container += super.get_element_td(el, this.x, this.y);
+                super.push_empty_td();
+            };
+            super.push_element_td(el);
         };
     };
+
     class laac_table extends html_table {
         constructor(x, y) {
             super(x, y);
         };
-        push_element(el) {
-            if (this.x == 18) {
-                this.table_container += "</tr><tr>";
-                this.x = 1;
-                this.y++;
-            } else {
-                this.x++;
-            }
-            if (el.Element == "Lanthanum" || el.Element == "Actinium") {
-                for (let i = 1; i < 4; ++i) {
-                    this.table_container += super.get_empty_td(this.x, this.y);
-                    this.x++;
-                }
-            }
-            this.table_container += super.get_element_td(el, this.x, this.y);
+        push_table_container(el) {
+            while (this.x < 4) {
+                super.push_empty_td();
+            };
+            super.push_element_td(el);
         };
     };
-    let main = new main_table(0, 1);
-    let laac = new laac_table(0, 8);
-    
-    main.table_container += "<tr>";
-    laac.table_container += "<tr>";
 
+    let main = new main_table(1, 1);
+    let laac = new laac_table(1, 8);
+    
     for (const el of table) {
         if (el.Type != "Lanthanide" && el.Type != "Actinide") {
-            main.push_element(el);
+            main.push_table_container(el);
         } else {
-            laac.push_element(el);
-        }
-    }
-    main.table_container += "</tr>";
-    laac.table_container += "</tr>";
-
-    const table_container = {
-        "main": main.table_container,
-        "laac": laac.table_container
+            laac.push_table_container(el);
+        };
     };
-    return table_container;
+
+    return {
+        "main": `<tr>${main.table_container}</tr>`,
+        "laac": `<tr>${laac.table_container}</tr>`
+    };
 };
 
 const splash = (group, action) => {
