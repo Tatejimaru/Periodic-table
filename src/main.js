@@ -16,6 +16,8 @@ const main = () => {
     el.laac.insertAdjacentHTML("beforeend", table_container.laac);
     
     add_click_action();
+    make_splash(2);
+    make_splash(1);
 };
 
 const make_table_header = cln_size => {
@@ -142,9 +144,6 @@ const make_splash_actual = (start, step) => {
 
 const make_splash = position => {
     make_splash_actual(position, 1);
-};
-
-const make_splash_reverse = position => {
     make_splash_actual(position, -1);
 };
 
@@ -159,7 +158,6 @@ const add_click_action = () => {
             }
             const position = Number(target.dataset.x);
             make_splash(position);
-            make_splash_reverse(position);
         }, false);
     }
 };
