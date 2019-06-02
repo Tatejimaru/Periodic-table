@@ -31,6 +31,15 @@ td
     border: solid 1px antiquewhite;
 }
 
+<<<<<<< HEAD
+=======
+
+/* .empty
+{
+    ;
+} */
+
+>>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
 .Symbol
 {
     font-size: 16pt;
@@ -59,6 +68,7 @@ tr :hover
 }
 .splash[data-y="2"]
 {
+<<<<<<< HEAD
     color: #ff5722;
     border-color: #ff5722;
 }
@@ -68,25 +78,51 @@ tr :hover
     border-color: #ff9800;
 }
 .splash[data-y="4"]
+=======
+    color: #ff9800;
+    border-color: #ff9800;
+}
+.splash[data-y="3"]
+>>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
 {
     color: #ffeb3b;
     border-color: #ffeb3b;
 }
+<<<<<<< HEAD
 .splash[data-y="5"]
+=======
+.splash[data-y="4"]
+>>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
 {
     color: #4caf50;
     border-color: #4caf50;
 }
+<<<<<<< HEAD
 .splash[data-y="6"]
+=======
+.splash[data-y="5"]
+>>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
 {
     color: #00bcd4;
     border-color: #00bcd4;
 }
+<<<<<<< HEAD
 .splash[data-y="7"]
+=======
+.splash[data-y="6"]
+>>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
 {
     color: #2196f3;
     border-color: #2196f3;
 }
+<<<<<<< HEAD
+=======
+.splash[data-y="7"]
+{
+    color: #3f51b5;
+    border-color: #3f51b5;
+}
+>>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
 .splash[data-y="8"]
 {
     color: #673ab7;
