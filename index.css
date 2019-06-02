@@ -20,9 +20,6 @@ table
 th,
 td
 {
-    /* font-size: 18pt; */
-    /* width: 1000px; */
-    /* height: 100px; */
     padding: 15px 3px;
 
     cursor: pointer;
@@ -31,15 +28,6 @@ td
     border: solid 1px antiquewhite;
 }
 
-<<<<<<< HEAD
-=======
-
-/* .empty
-{
-    ;
-} */
-
->>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
 .Symbol
 {
     font-size: 16pt;
@@ -57,78 +45,51 @@ td
 
 tr :hover
 {
-    background-color: #37474f; 
+    background-color: #37474f;
     /* color: aquamarine; */
 }
 
-.splash[data-y="1"]
+.splash[data-y='1']
 {
     color: #f44336;
     border-color: #f44336;
 }
-.splash[data-y="2"]
+.splash[data-y='2']
 {
-<<<<<<< HEAD
     color: #ff5722;
     border-color: #ff5722;
 }
-.splash[data-y="3"]
+.splash[data-y='3']
 {
     color: #ff9800;
     border-color: #ff9800;
 }
-.splash[data-y="4"]
-=======
-    color: #ff9800;
-    border-color: #ff9800;
-}
-.splash[data-y="3"]
->>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
+.splash[data-y='4']
 {
     color: #ffeb3b;
     border-color: #ffeb3b;
 }
-<<<<<<< HEAD
-.splash[data-y="5"]
-=======
-.splash[data-y="4"]
->>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
+.splash[data-y='5']
 {
     color: #4caf50;
     border-color: #4caf50;
 }
-<<<<<<< HEAD
-.splash[data-y="6"]
-=======
-.splash[data-y="5"]
->>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
+.splash[data-y='6']
 {
     color: #00bcd4;
     border-color: #00bcd4;
 }
-<<<<<<< HEAD
-.splash[data-y="7"]
-=======
-.splash[data-y="6"]
->>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
+.splash[data-y='7']
 {
     color: #2196f3;
     border-color: #2196f3;
 }
-<<<<<<< HEAD
-=======
-.splash[data-y="7"]
-{
-    color: #3f51b5;
-    border-color: #3f51b5;
-}
->>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
-.splash[data-y="8"]
+.splash[data-y='8']
 {
     color: #673ab7;
     border-color: #673ab7;
 }
-.splash[data-y="9"]
+.splash[data-y='9']
 {
     color: #9c27b0;
     border-color: #9c27b0;

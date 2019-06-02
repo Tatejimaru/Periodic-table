@@ -41,17 +41,10 @@ const make_table_container = table => {
         }; 
         get_element_td(el, x, y){
             let element_td = "";
-<<<<<<< HEAD
             element_td += `<td data-x="${x}" data-y="${y}" data-type="${el.Type}">`;
             element_td += `<span class='AtomicNumber'>${el.AtomicNumber}</span> `;
             element_td += `<span class='Symbol'>${el.Symbol}</span><br>`;
             element_td += `<span class='Element'>${el.Element}</span></td>`;
-=======
-            element_td += `<td data-x="${x}" data-y="${y}" data-type="${e.Type}">`;
-            element_td += `<span class='AtomicNumber'>${e.AtomicNumber}</span> `;
-            element_td += `<span class='Symbol'>${e.Symbol}</span><br>`;
-            element_td += `<span class='Element'>${e.Element}</span></td>`;
->>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
             return element_td;
         };
     };
@@ -72,7 +65,6 @@ const make_table_container = table => {
                 this.table_container += super.get_empty_td(this.x, this.y);
                 this.x++;
             }
-<<<<<<< HEAD
             this.table_container += super.get_element_td(el, this.x, this.y);
         };
     };
@@ -87,15 +79,6 @@ const make_table_container = table => {
                 this.y++;
             } else {
                 this.x++;
-=======
-            const x = x_position;
-            const y = (e.Type == "Lanthanide") ? 8 : 9;
-            table_container_laac += get_element_td(e, x, y);
-            x_position++;
-        } else {
-            if (prev_Period != 0 && e.Period - prev_Period > 0) {
-                table_container_main += "</tr><tr>"
->>>>>>> d3566bf89357c547e76ae3b576660227f30b0b2f
             }
             if (el.Element == "Lanthanum" || el.Element == "Actinium") {
                 for (let i = 1; i < 4; ++i) {
