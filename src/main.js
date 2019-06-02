@@ -17,8 +17,6 @@ const main = () => {
     
     add_click_action();
 
-    make_splash(3);
-    make_splash(2);
     make_splash(1);
 };
 
@@ -106,37 +104,37 @@ const make_table_container = table => {
     };
 };
 
-const splash = (group, action) => {
-    const className = "splash";
-    let el = document.querySelectorAll(`td[data-x="${group}"]`);
-    for (let e of el) {
-        if (action == "add") {
-            e.classList.add(className);
-        } else if (action == "remove") {
-            e.classList.remove(className);
-        }
-    }
-};
-
-const make_splash_actual = (start, step) => {
-    const speed = 100;
+const make_splash_actual = (start, step, speed, thickness) => {
+    const splash = (group, action) => {
+        const className = "splash";
+        const speed = [100, 34.9, 13.4, 3.2, 0, 3.2, 13.4, 34.9, 100];
+        for (const [key, val] of speed.entries()) {
+            setTimeout(() => {
+                let el = document.querySelector(`td[data-x="${group}"][data-y="${key + 1}"]`);
+                if (el != null) {
+                    if (action == "add") {
+                        el.classList.add(className);
+                    } else if (action == "remove") {
+                        el.classList.remove(className);
+                    };
+                };
+            }, val);
+        };
+    };
     const end = 18;
-    const loop = i => {
-        splash(i, "add");
-        splash(i - step, "remove");
-        if (i >= 1 && i <= end){
-            setTimeout(loop, speed, i + step);
-        } else {
-            splash(i, "remove");
-        }
+    const loop = position => {
+        splash(position, "add");
+        splash(position - step * thickness, "remove");
+        setTimeout(loop, speed, position + step);
     };
     loop(start);
 };
 
-
 const make_splash = position => {
-    make_splash_actual(position, 1);
-    make_splash_actual(position, -1);
+    const speed = 70;
+    const thickness = 3;
+    make_splash_actual(position, 1, speed, thickness);
+    make_splash_actual(position, -1, speed, thickness);
 };
 
 const add_click_action = () => {
