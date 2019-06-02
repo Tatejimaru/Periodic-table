@@ -1,19 +1,19 @@
 "use strict";
 
 const main = () => {
-    const el_main = document.querySelector("#elements");
-    const el_laac = document.querySelector("#laac");
-    
-    const table_header = make_table_header(18);
-    el_main.insertAdjacentHTML("beforeend", table_header);
-    
-    const table = get_table();
-    let table_container_main = "";
-    let table_container_laac = "";
-    [table_container_main, table_container_laac] = make_table_container(table);
+    const el = {
+        "main": document.querySelector("#elements"),
+        "laac": document.querySelector("#laac")
+    };
 
-    el_main.insertAdjacentHTML("beforeend", table_container_main);
-    el_laac.insertAdjacentHTML("beforeend", table_container_laac);
+    const table_header = make_table_header(18);
+    el.main.insertAdjacentHTML("beforeend", table_header);
+    
+    const table_data = get_table();
+    const table_container = make_table_container(table_data);
+
+    el.main.insertAdjacentHTML("beforeend", table_container.main);
+    el.laac.insertAdjacentHTML("beforeend", table_container.laac);
     
     add_click_action();
 };
@@ -28,16 +28,23 @@ const make_table_header = cln_size => {
 };
 
 const make_table_container = table => {
-    let table_container_main = "<tr>";
-    let table_container_laac = "<tr>";
+    let table_container = {
+        "main": "<tr>",
+        "laac": "<tr>"
+    }
     
     let prev_Period = 0;
     let prev_Group = 0;
 
+    // let x_main = 0;
+    // let y_main = 0;
+    // let x_laac = 0;
+    // let y_laac = 0;
     let x_position = 0;
 
     for (const e of table) {
-        const empty_td = '<td class="empty">+</td>'; 
+        const empty_td = `<td data-type="empty">+</td>`; 
+        // const empty_td =  (x, y) => `<td data-x="${x}" data-y="${y}" data-type="empty">+</td>`; 
         const get_element_td = (e, x, y) =>{
             let element_td = "";
             element_td += `<td data-x="${x}" data-y="${y}" data-type="${e.Type}">`;
@@ -48,42 +55,48 @@ const make_table_container = table => {
         }
         if (e.Type == "Lanthanide" || e.Type == "Actinide") {
             if (e.Element == "Actinium"){
-                table_container_laac += "</tr><tr>";
+                table_container.laac += "</tr><tr>";
             }
             if (e.Element == "Lanthanum" || e.Element == "Actinium") {
                 const start = 4;
                 for (let i = 1; i < start; ++i) {
-                    table_container_laac += empty_td;
+                    table_container.laac += empty_td;
+                    // table_container.laac += empty_td(x, y);
                 }
                 x_position = start;
             }
+            const map_y = {
+                "Lanthanide": 8,
+                "Actinide": 9
+            }
             const x = x_position;
-            const y = (e.Type == "Lanthanide") ? 8 : 9;
-            table_container_laac += get_element_td(e, x, y);
+            const y = map_y[e.Type];
+            table_container.laac += get_element_td(e, x, y);
             x_position++;
         } else {
             if (prev_Period != 0 && e.Period - prev_Period > 0) {
-                table_container_main += "</tr><tr>"
+                table_container.main += "</tr><tr>"
             }
 
             let Group_gap = e.Group - prev_Group;
             if (Group_gap > 1) {
                 while (Group_gap > 1) {
-                    table_container_main += empty_td;
+                    table_container.main += empty_td;
+                    // table_container.main += empty_td(x, y);
                     Group_gap--;
                 }
             }
             const x = e.Group;
             const y = e.Period;
-            table_container_main += get_element_td(e, x, y);
+            table_container.main += get_element_td(e, x, y);
 
             prev_Period = e.Period;
             prev_Group = e.Group;
         }
     }
-    table_container_main += "</tr>";
-    table_container_laac += "</tr>";
-    return [table_container_main, table_container_laac];
+    table_container.main += "</tr>";
+    table_container.laac += "</tr>";
+    return table_container;
 };
 
 const splash = (group, action) => {
