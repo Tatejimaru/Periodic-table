@@ -28,74 +28,87 @@ const make_table_header = cln_size => {
 };
 
 const make_table_container = table => {
-    let table_container = {
-        "main": "<tr>",
-        "laac": "<tr>"
-    }
-    
-    let prev_Period = 0;
-    let prev_Group = 0;
 
-    // let x_main = 0;
-    // let y_main = 0;
-    // let x_laac = 0;
-    // let y_laac = 0;
-    let x_position = 0;
-
-    for (const e of table) {
-        const empty_td = `<td data-type="empty">+</td>`; 
-        // const empty_td =  (x, y) => `<td data-x="${x}" data-y="${y}" data-type="empty">+</td>`; 
-        const get_element_td = (e, x, y) =>{
+    class html_table {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.table_container = "";
+        };
+        get_empty_td(x, y) {
+            const empty_td = `<td data-x="${x}" data-y="${y}" data-type="empty">+</td>`
+            return empty_td;
+        }; 
+        get_element_td(el, x, y){
             let element_td = "";
-            element_td += `<td data-x="${x}" data-y="${y}" data-type="${e.Type}">`;
-            element_td += `<span class='AtomicNumber'>${e.AtomicNumber}</span> `;
-            element_td += `<span class='Symbol'>${e.Symbol}</span><br>`;
-            element_td += `<span class='Element'>${e.Element}</span></td>`;
+            element_td += `<td data-x="${x}" data-y="${y}" data-type="${el.Type}">`;
+            element_td += `<span class='AtomicNumber'>${el.AtomicNumber}</span> `;
+            element_td += `<span class='Symbol'>${el.Symbol}</span><br>`;
+            element_td += `<span class='Element'>${el.Element}</span></td>`;
             return element_td;
-        }
-        if (e.Type == "Lanthanide" || e.Type == "Actinide") {
-            if (e.Element == "Actinium"){
-                table_container.laac += "</tr><tr>";
+        };
+    };
+    class main_table extends html_table {
+        constructor(x, y) {
+            super(x, y);
+        };
+        push_element(el) {
+            if (this.x == 18) {
+                this.table_container += "</tr><tr>"
+                this.x = 1;
+                this.y++;
+            } else {
+                this.x++;
             }
-            if (e.Element == "Lanthanum" || e.Element == "Actinium") {
-                const start = 4;
-                for (let i = 1; i < start; ++i) {
-                    table_container.laac += empty_td;
-                    // table_container.laac += empty_td(x, y);
+            
+            while (this.x < el.Group) {
+                this.table_container += super.get_empty_td(this.x, this.y);
+                this.x++;
+            }
+            this.table_container += super.get_element_td(el, this.x, this.y);
+        };
+    };
+    class laac_table extends html_table {
+        constructor(x, y) {
+            super(x, y);
+        };
+        push_element(el) {
+            if (this.x == 18) {
+                this.table_container += "</tr><tr>";
+                this.x = 1;
+                this.y++;
+            } else {
+                this.x++;
+            }
+            if (el.Element == "Lanthanum" || el.Element == "Actinium") {
+                for (let i = 1; i < 4; ++i) {
+                    this.table_container += super.get_empty_td(this.x, this.y);
+                    this.x++;
                 }
-                x_position = start;
             }
-            const map_y = {
-                "Lanthanide": 8,
-                "Actinide": 9
-            }
-            const x = x_position;
-            const y = map_y[e.Type];
-            table_container.laac += get_element_td(e, x, y);
-            x_position++;
+            this.table_container += super.get_element_td(el, this.x, this.y);
+        };
+    };
+    let main = new main_table(0, 1);
+    let laac = new laac_table(0, 8);
+    
+    main.table_container += "<tr>";
+    laac.table_container += "<tr>";
+
+    for (const el of table) {
+        if (el.Type != "Lanthanide" && el.Type != "Actinide") {
+            main.push_element(el);
         } else {
-            if (prev_Period != 0 && e.Period - prev_Period > 0) {
-                table_container.main += "</tr><tr>"
-            }
-
-            let Group_gap = e.Group - prev_Group;
-            if (Group_gap > 1) {
-                while (Group_gap > 1) {
-                    table_container.main += empty_td;
-                    // table_container.main += empty_td(x, y);
-                    Group_gap--;
-                }
-            }
-            const x = e.Group;
-            const y = e.Period;
-            table_container.main += get_element_td(e, x, y);
-
-            prev_Period = e.Period;
-            prev_Group = e.Group;
+            laac.push_element(el);
         }
     }
-    table_container.main += "</tr>";
-    table_container.laac += "</tr>";
+    main.table_container += "</tr>";
+    laac.table_container += "</tr>";
+
+    const table_container = {
+        "main": main.table_container,
+        "laac": laac.table_container
+    };
     return table_container;
 };
 
