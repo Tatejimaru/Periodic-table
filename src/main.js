@@ -17,7 +17,7 @@ const main = () => {
     
     add_click_action();
 
-    make_splash(1);
+    make_splash(9);
 };
 
 const make_table_header = cln_size => {
@@ -104,11 +104,20 @@ const make_table_container = table => {
     };
 };
 
-const make_splash_actual = (start, step, speed, thickness) => {
+const make_splash = position => {
+    const speed = 70;
+    const thickness = 3;
+
+    make_splash_actual(position, 1, speed, thickness);
+    make_splash_actual(position, -1, speed, thickness);
+};
+
+const make_splash_actual = (position, step, speed, thickness) => {
+
     const splash = (group, action) => {
         const className = "splash";
-        const speed = [100, 34.9, 13.4, 3.2, 0, 3.2, 13.4, 34.9, 100];
-        for (const [key, val] of speed.entries()) {
+        const splash_shape = [100, 34.9, 13.4, 3.2, 0, 3.2, 13.4, 34.9, 100];
+        for (const [key, val] of splash_shape.entries()) {
             setTimeout(() => {
                 let el = document.querySelector(`td[data-x="${group}"][data-y="${key + 1}"]`);
                 if (el != null) {
@@ -121,20 +130,14 @@ const make_splash_actual = (start, step, speed, thickness) => {
             }, val);
         };
     };
-    const end = 18;
+
     const loop = position => {
         splash(position, "add");
         splash(position - step * thickness, "remove");
         setTimeout(loop, speed, position + step);
     };
-    loop(start);
-};
 
-const make_splash = position => {
-    const speed = 70;
-    const thickness = 3;
-    make_splash_actual(position, 1, speed, thickness);
-    make_splash_actual(position, -1, speed, thickness);
+    loop(position);
 };
 
 const add_click_action = () => {
