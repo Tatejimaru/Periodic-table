@@ -23,9 +23,6 @@ class Main {
         el.laac.insertAdjacentHTML("beforeend", table_container.laac);
         
         this.add_click_action();
-
-        const center_point = [Math.round(N_SIZE.GROUP / 2), Math.round(N_SIZE.PERIOD / 2)]
-        this.make_splash(...center_point);
     };
 
     make_table_header(cln_size) {
@@ -115,7 +112,7 @@ class Main {
     make_splash(pos_x, pos_y) {
 
         const splash = (pos_x, pos_y, thickness, number) => {
-            const scale = 40;
+            const scale = 60;
             const radius = 100;
             const y_radius = 3;
             let splash_shape = [];
@@ -149,11 +146,11 @@ class Main {
             loop(pos_x, pos_y, thickness, -1);
         };
 
-        const speed = 70;
+        const speed = 60;
         const thickness = 2;
         const args = [pos_x, pos_y, speed, thickness];
 
-        for (let time of [0, 120]) {
+        for (let time of [0, 100]) {
             setTimeout(make_splash_actual, time, ...args);
         };
     };
