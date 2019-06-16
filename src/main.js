@@ -112,7 +112,7 @@ class Main {
     make_splash(pos_x, pos_y) {
 
         const splash = (pos_x, pos_y, thickness, number) => {
-            const scale = 60;
+            const scale = 67;
             const radius = 100;
             const y_radius = 3;
             let splash_shape = [];
@@ -135,8 +135,10 @@ class Main {
 
         const make_splash_actual = (pos_x, pos_y, speed, thickness) => {
             const loop = (pos_x, pos_y, thickness, step) => {
+                const term = 90;
                 for (let i = 0; i <= thickness; ++i) {
-                    splash(pos_x - step * i, pos_y, thickness, i);
+                    const args = [pos_x, pos_y, thickness, i];
+                    setTimeout(splash, term * i, ...args);
                 };
                 if (pos_x >= 0 && pos_x <= N_SIZE.GROUP + 1) {
                     setTimeout(loop, speed, pos_x + step, pos_y, thickness, step);
@@ -146,7 +148,7 @@ class Main {
             loop(pos_x, pos_y, thickness, -1);
         };
 
-        const speed = 60;
+        const speed = 70;
         const thickness = 2;
         const args = [pos_x, pos_y, speed, thickness];
 
