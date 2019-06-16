@@ -115,7 +115,7 @@ class Main {
     make_splash(pos_x, pos_y) {
 
         const splash = (pos_x, pos_y, thickness, number) => {
-            const scale = 55;
+            const scale = 40;
             const radius = 100;
             const y_radius = 3;
             let splash_shape = [];
