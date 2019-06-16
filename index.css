@@ -84,47 +84,47 @@ tr :hover
     /* color: aquamarine; */
 }
 
-.splash[data-y='1']
+.splash_0[data-y='1']
 {
     color: var(--p1);
     border-color: var(--p1);
 }
-.splash[data-y='2']
+.splash_0[data-y='2']
 {
     color: var(--p2);
     border-color: var(--p2);
 }
-.splash[data-y='3']
+.splash_0[data-y='3']
 {
     color: var(--p3);
     border-color: var(--p3);
 }
-.splash[data-y='4']
+.splash_0[data-y='4']
 {
     color: var(--p4);
     border-color: var(--p4);
 }
-.splash[data-y='5']
+.splash_0[data-y='5']
 {
     color: var(--p5);
     border-color: var(--p5);
 }
-.splash[data-y='6']
+.splash_0[data-y='6']
 {
     color: var(--p6);
     border-color: var(--p6);
 }
-.splash[data-y='7']
+.splash_0[data-y='7']
 {
     color: var(--p7);
     border-color: var(--p7);
 }
-.splash[data-y='8']
+.splash_0[data-y='8']
 {
     color: var(--p8);
     border-color: var(--p8);
 }
-.splash[data-y='9']
+.splash_0[data-y='9']
 {
     color: var(--p9);
     border-color: var(--p9);
@@ -243,9 +243,3 @@ tr :hover
     border-color: #3f51b5;
 } */
 
-#back
-{
-    /* text-align: center;*/
-    margin: 0 auto;
-    /* color: antiquewhite; */
-}

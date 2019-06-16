@@ -1,5 +1,10 @@
 "use strict";
 
+const N_SIZE = {
+    PERIOD: 9,
+    GROUP: 18
+};
+
 class Main { 
 
     start() {
@@ -8,7 +13,7 @@ class Main {
             "laac": document.querySelector("#laac")
         };
 
-        const table_header = this.make_table_header(18);
+        const table_header = this.make_table_header(N_SIZE.GROUP);
         el.main.insertAdjacentHTML("beforeend", table_header);
         
         const table_data = this.get_table();
@@ -18,7 +23,9 @@ class Main {
         el.laac.insertAdjacentHTML("beforeend", table_container.laac);
         
         this.add_click_action();
-        this.make_splash(9, 5);
+
+        const center_point = [Math.round(N_SIZE.GROUP / 2), Math.round(N_SIZE.PERIOD / 2)]
+        this.make_splash(...center_point);
     };
 
     make_table_header(cln_size) {
@@ -46,7 +53,7 @@ class Main {
                 this.table_container += element_td;
 
                 const next = () => {
-                    if (this.x < 18) {
+                    if (this.x < N_SIZE.GROUP) {
                         this.x++;
                     } else {
                         this.table_container += "</tr><tr>"
@@ -106,46 +113,49 @@ class Main {
     };
 
     make_splash(pos_x, pos_y) {
-        const speed = 80;
 
-        const splash = (pos_x, pos_y, number) => {
-            const className = "splash";
-            const className_1 = "splash_1";
+        const splash = (pos_x, pos_y, thickness, number) => {
+            const scale = 55;
+            const radius = 100;
+            const y_radius = 3;
             let splash_shape = [];
-            for (let i = 0; i < 9; ++i) {
-                const scale = 60;
-                const radius = 100;
-                const y_radius = 3;
-                splash_shape[i] = (radius - Math.sqrt(radius ** 2 - radius / y_radius * (i - pos_y + 1) ** 2)) * scale;
+            for (let i = 0; i < N_SIZE.PERIOD; ++i) {
+                splash_shape.push((radius - Math.sqrt(radius ** 2 - radius / y_radius * (i - pos_y + 1) ** 2)) * scale);
             };
             for (const [key, val] of splash_shape.entries()) {
                 setTimeout(() => {
                     let el = document.querySelector(`td[data-x="${pos_x}"][data-y="${key + 1}"]`);
                     if (el == null) return;
-                    if (number == 0) {
-                        el.classList.add(className);
-                    } else if (number == 1) {
-                        el.classList.remove(className);
-                        el.classList.add(className_1);
-                    } else {
-                        el.classList.remove(className_1);
+                    if (number != thickness) {
+                        el.classList.add(`splash_${number}`);
+                    };
+                    if (el.classList.contains(`splash_${number - 1}`)) { 
+                        el.classList.remove(`splash_${number - 1}`);
                     };
                 }, val);
             };
         };
 
-        const make_splash_actual = (pos_x, pos_y, step, speed) => {
-            const loop = (pos_x, pos_y) => {
-                splash(pos_x - step * 0, pos_y, 0);
-                splash(pos_x - step * 1, pos_y, 1);
-                splash(pos_x - step * 2, pos_y, -1);
-                setTimeout(loop, speed, pos_x + step, pos_y);
+        const make_splash_actual = (pos_x, pos_y, speed, thickness) => {
+            const loop = (pos_x, pos_y, thickness, step) => {
+                for (let i = 0; i <= thickness; ++i) {
+                    splash(pos_x - step * i, pos_y, thickness, i);
+                };
+                if (pos_x >= 0 && pos_x <= N_SIZE.GROUP + 1) {
+                    setTimeout(loop, speed, pos_x + step, pos_y, thickness, step);
+                };
             };
-            loop(pos_x, pos_y);
+            loop(pos_x, pos_y, thickness, 1);
+            loop(pos_x, pos_y, thickness, -1);
         };
 
-        make_splash_actual(pos_x, pos_y, 1, speed);
-        make_splash_actual(pos_x, pos_y, -1, speed);
+        const speed = 70;
+        const thickness = 2;
+        const args = [pos_x, pos_y, speed, thickness];
+
+        for (let time of [0, 120]) {
+            setTimeout(make_splash_actual, time, ...args);
+        };
     };
 
     add_click_action() {
