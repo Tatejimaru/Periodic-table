@@ -72,6 +72,8 @@ td
 .Symbol
 {
     font-size: 16pt;
+    margin-right: 6px;
+    margin-left: 1px;
 }
 
 .AtomicNumber

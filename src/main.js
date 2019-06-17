@@ -23,6 +23,14 @@ class Main {
         el.laac.insertAdjacentHTML("beforeend", table_container.laac);
         
         this.add_click_action();
+
+        // test    
+        // const cell = document.querySelector("#element_cell").content;
+        // cell.querySelector(".AtomicNumber").textContent = "99";
+        // cell.querySelector(".Symbol").textContent = "Xx";
+        // cell.querySelector(".Element").textContent = "xxxxx";
+        // const clone = document.importNode(cell, true);
+        // document.querySelector("#elements").appendChild(clone);
     };
 
     make_table_header(cln_size) {
@@ -32,6 +40,7 @@ class Main {
         }
         return `<tr>${table_header}</tr>`
     };
+    
 
     make_table_container(table) {
 
@@ -49,16 +58,13 @@ class Main {
                 element_td += `<span class='Element'>${el.Element}</span></td>`;
                 this.table_container += element_td;
 
-                const next = () => {
-                    if (this.x < N_SIZE.GROUP) {
-                        this.x++;
-                    } else {
-                        this.table_container += "</tr><tr>"
-                        this.x = 1;
-                        this.y++;
-                    };
+                if (this.x < N_SIZE.GROUP) {
+                    this.x++;
+                } else {
+                    this.table_container += "</tr><tr>"
+                    this.x = 1;
+                    this.y++;
                 };
-                next();
             };
             push_empty_td() {
                 const empty_td = `<td data-x="${this.x}" data-y="${this.y}" data-type="empty">+</td>`
@@ -3721,3 +3727,5 @@ class Main {
 
 const main = new Main();
 main.start();
+
+
