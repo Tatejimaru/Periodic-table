@@ -118,7 +118,7 @@ class Main {
     make_splash(pos_x, pos_y) {
 
         const splash = (pos_x, pos_y, thickness, number) => {
-            const scale = 67;
+            const scale = 100;
             const radius = 100;
             const y_radius = 3;
             let splash_shape = [];
@@ -154,7 +154,7 @@ class Main {
             loop(pos_x, pos_y, thickness, -1);
         };
 
-        const speed = 70;
+        const speed = 75;
         const thickness = 2;
         const args = [pos_x, pos_y, speed, thickness];
 
