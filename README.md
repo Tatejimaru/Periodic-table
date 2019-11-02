@@ -4,4 +4,4 @@ It's **the periodic table** colored in <font color="Red">r</font><font color="Or
 
 [Open in GitHub Pages](https://tatejimaru.github.io/Periodic-table/)
 
-![demo](src/demo.png)
+![demo](img/demo.png)

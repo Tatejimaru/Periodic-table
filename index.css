@@ -25,32 +25,68 @@ body
 {
     font-family: 'Times New Roman', Times, serif;
 
-    margin-left: 20px;
+    /* margin-left: 20px; */
+    
 
     color: antiquewhite;
     background-color: #263238;
 }
 
+#title
+{
+    font-size: 32pt;
+    font-weight: normal;
 
+    margin-top: 50px;
+    margin-bottom: 45px;
+
+    text-align: center;
+}
+
+#title::before
+{
+    font-size: 28pt;
+
+    content: '「 ';
+}
+
+#title::after
+{
+    font-size: 28pt;
+
+    content: ' 」';
+}
 
 #back
 {
-    margin-top: 40px;
+    margin-top: 50px;
+
+    text-align: center;
+    vertical-align: middle;
 }
 #back > a
 {
-    font-size: 12pt;
+    font-size: 13pt;
 
     color: antiquewhite;
 }
 #back > a:hover
 {
-    opacity: .7;
+    opacity: 0.7;
 }
 
-table
+#back-icon
+{
+    font-size: 15pt;
+    margin-right:3px;
+}
+
+.periodic_table
 {
     width: 1350px;
+    margin-bottom: 12px;
+    margin-left: auto;
+    margin-right: auto;
 
     table-layout: fixed;
     border-collapse: collapse;
@@ -58,8 +94,8 @@ table
     border: solid 3px antiquewhite;
 }
 
-th,
-td
+.periodic_table th,
+.periodic_table td
 {
     padding: 15px 3px;
 
@@ -72,6 +108,7 @@ td
 .Symbol
 {
     font-size: 16pt;
+
     margin-right: 6px;
     margin-left: 1px;
 }
@@ -86,7 +123,7 @@ td
     font-size: 8pt;
 }
 
-tr :hover
+.periodic_table tr :hover
 {
     background-color: #37474f;
 }
