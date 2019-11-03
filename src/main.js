@@ -6,7 +6,7 @@ class Main {
         const periodicTableHtml = {
             'upper': document.querySelector('#upper_periodic_table'),
             'lower': document.querySelector('#lower_periodic_table'),
-            'td': null
+            'td': []
         }
 
         const generater = new TableGenerater();
@@ -43,7 +43,7 @@ class TableGenerater {
         const lower = new LowerTable(1, 8);
 
         for (const el of source) {
-            if (el.Type != 'Lanthanide' && el.Type != 'Actinide') {
+            if (el.Type !== 'Lanthanide' && el.Type !== 'Actinide') {
                 upper.pushTableContainer(el);
             } else {
                 lower.pushTableContainer(el);
@@ -58,66 +58,79 @@ class TableGenerater {
 }
 
 class Animator {
-    makeSplash(posX, posY) {
-        const speed = 50;
-        const layers = 2;
-        const times = [0, 100]
-        const args = [posX, posY, speed, layers];
-
-        const loop = (posX, posY, layers, step) => {
-            const term = 90;
-            for (let i = 0; i <= layers; ++i) {
-                const args = [posX, posY, layers, i];
-                setTimeout(this.splash, term * i, ...args);
-            }
-            if (posX >= 0 && posX <= 18 + 1) {
-                setTimeout(loop, speed, posX + step, posY, layers, step);
-            }
-        }
-
-        const makeSplashActual = (posX, posY, speed, layers) => {
-            loop(posX, posY, layers, 1);
-            loop(posX, posY, layers, -1);
-        }
-
-        for (const time of times) {
-            setTimeout(makeSplashActual, time, ...args);
-        }
-    }
-
-    splash(posX, posY, layers, number) {
-        const scale = 100;
-        const radius = 100;
-        const yRadius = 3;
-        const splashShape = [];
-        for (let i = 0; i < 9; ++i) {
-            splashShape.push((radius - Math.sqrt(radius ** 2 - radius / yRadius * (i - posY + 1) ** 2)) * scale);
-        }
-        for (const [key, val] of splashShape.entries()) {
-            setTimeout(() => {
-                const el = document.querySelector(`td[data-x="${posX}"][data-y="${key + 1}"]`);
-                if (el == null) return;
-                if (number != layers) {
-                    el.classList.add(`splash_${number}`);
-                }
-                if (el.classList.contains(`splash_${number - 1}`)) {
-                    el.classList.remove(`splash_${number - 1}`);
-                }
-            }, val);
-        }
+    constructor() {
+        this.posX = 0;
+        this.posY = 0;
+        this.layers = 2;
+        this.interval = 90;
+        this.arrivalTime = 50;
     }
 
     addClickAction(element) {
         for (const td of element) {
+            if (td.tagName !== 'TD'){
+                continue;
+            } 
             td.addEventListener('click', (event) => {
                 let target = event.target;
-                while (target.tagName != 'TD') {
+                while (target.tagName !== 'TD') {
                     target = target.parentNode;
                 }
-                const posX = Number(target.dataset.x);
-                const posY = Number(target.dataset.y);
-                this.makeSplash(posX, posY);
+                this.posX = Number(target.dataset.x);
+                this.posY = Number(target.dataset.y);
+                this.makeSplash();
             }, false);
+        }
+    }
+
+    makeSplash() {
+        const loop = (posX, posY, step) => {
+            if (posX < 0 || posX > 18 + 1) {
+                return;
+            }
+            for (let layer = 0; layer <= this.layers; ++layer) {
+                setTimeout(this.splash, this.interval * layer, posX, posY, layer);
+            }
+            const nextPosX = posX + step;
+            setTimeout(loop, this.arrivalTime, nextPosX, posY, step);
+        }
+        for (const startTime of [0, 100]) {
+            setTimeout(() => {
+                loop(this.posX, this.posY, 1);
+                loop(this.posX, this.posY, -1);
+            }, startTime);
+        }
+    }
+
+    splash(posX, posY, number) {
+        const calcCircle = (y) => {
+            const width = 100;
+            const radius = 100;
+            const drdy = Math.sqrt(10);
+            const circle = [];
+    
+            for (let period = 0; period < 9; ++period) {
+                const dy = period - y + 1
+                circle.push((radius - Math.sqrt(radius ** 2 - (drdy * dy) ** 2)) * width);
+            }
+            return circle;
+        }
+        const splashShape = calcCircle(posY);
+
+        for (const [period, startTime] of splashShape.entries()) {
+            setTimeout(() => {
+                const element = document.querySelector(`td[data-x="${posX}"][data-y="${period + 1}"]`);
+                if (!element) {
+                    return;
+                }
+                if (number !== this.layers) {
+                    element.classList.add(`splash_${number}`);
+                }
+                const isColoerd = element.classList.contains(`splash_${number - 1}`);
+                if (isColoerd) {
+                    element.classList.remove(`splash_${number - 1}`);
+                }
+            }, startTime);
         }
     }
 }
@@ -3728,5 +3741,3 @@ class Source{
 
 const main = new Main();
 main.start();
-
-
