@@ -5,13 +5,13 @@ type Atom = { [index: string]: string };
 
 class Main {
   start(): void {
-    const periodicTableHtml: { [index: string]: Element } = {
-      'upper': document.querySelector('#upper_periodic_table'),
-      'lower': document.querySelector('#lower_periodic_table')
+    const periodicTableHtml: { [index: string]: HTMLElement } = {
+      'upper': <HTMLElement>document.querySelector('#upper_periodic_table'),
+      'lower': <HTMLElement>document.querySelector('#lower_periodic_table')
     }
 
     const generater = new TableGenerater();
-    const tableHeader:string = generater.generateTableHeader();
+    const tableHeader: string = generater.generateTableHeader();
     generater.setTableData(tableHeader, periodicTableHtml.upper);
 
     const src: Atom[] = Source.getPeriodicTableData();
@@ -20,13 +20,13 @@ class Main {
     generater.setTableData(tableContainer.lower, periodicTableHtml.lower);
 
     const animator = new Animator();
-    const td = document.querySelectorAll('.periodic_table td');
-    animator.addClickAction(td);
+    const tableTds: NodeListOf<HTMLElement> = document.querySelectorAll('.periodic_table td');
+    animator.addClickAction(tableTds);
   }
 }
 
 class TableGenerater {
-  public setTableData(tableData: string, element: Element): void {
+  public setTableData(tableData: string, element: HTMLElement): void {
     element.insertAdjacentHTML('beforeend', tableData);
   }
 
@@ -72,15 +72,15 @@ class Animator {
     this.arrivalTime = 50;
   }
 
-  public addClickAction(element): void {
-    for (const td of element) {
+  public addClickAction(elements: NodeListOf<HTMLElement>): void {
+    for (const td of elements) {
       if (td.tagName !== 'TD') {
         continue;
       }
-      td.addEventListener('click', (event) => {
-        let target = event.target;
+      td.addEventListener('click', (event: Event) => {
+        let target = event.target as HTMLElement;
         while (target.tagName !== 'TD') {
-          target = target.parentNode;
+          target = target.parentNode as HTMLElement;
         }
         this.posX = Number(target.dataset.x);
         this.posY = Number(target.dataset.y);
@@ -100,12 +100,9 @@ class Animator {
       const nextPosX = posX + step;
       setTimeout(loop, this.arrivalTime, nextPosX, posY, step);
     }
-    for (const startTime of [0, 100]) {
-      setTimeout(() => {
-        loop(this.posX, this.posY, 1);
-        loop(this.posX, this.posY, -1);
-      }, startTime);
-    }
+
+    loop(this.posX, this.posY, 1);
+    loop(this.posX, this.posY, -1);
   }
 
   private splash(posX: number, posY: number, number: number) {
@@ -125,7 +122,7 @@ class Animator {
 
     for (const [period, startTime] of splashShape.entries()) {
       setTimeout(() => {
-        const element = document.querySelector(`td[data-x="${posX}"][data-y="${period + 1}"]`);
+        const element: HTMLElement = document.querySelector(`td[data-x="${posX}"][data-y="${period + 1}"]`);
         if (!element) {
           return;
         }
@@ -202,7 +199,6 @@ class LowerTable extends PeriodicTable {
     super.pushElementTd(atom);
   }
 }
-
 
 class Source {
   static getPeriodicTableData(): Atom[] {

@@ -84,14 +84,15 @@ body
 .periodic_table
 {
     width: 1350px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     margin-left: auto;
     margin-right: auto;
 
     table-layout: fixed;
     border-collapse: collapse;
 
-    border: solid 3px antiquewhite;
+    border-left: solid 3px antiquewhite;
+    border-right: solid 3px antiquewhite;
 }
 
 .periodic_table th,
@@ -103,6 +104,15 @@ body
     text-align: center;
 
     border: solid 1px antiquewhite;
+}
+
+.periodic_table th
+{
+    border-top: solid 3px antiquewhite;
+}
+.periodic_table td[data-y='9']
+{
+    border-bottom: solid 3px antiquewhite;
 }
 
 .Symbol

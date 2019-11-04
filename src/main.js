@@ -14,8 +14,8 @@ class Main {
         generater.setTableData(tableContainer.upper, periodicTableHtml.upper);
         generater.setTableData(tableContainer.lower, periodicTableHtml.lower);
         const animator = new Animator();
-        const td = document.querySelectorAll('.periodic_table td');
-        animator.addClickAction(td);
+        const tableTds = document.querySelectorAll('.periodic_table td');
+        animator.addClickAction(tableTds);
     }
 }
 class TableGenerater {
@@ -55,8 +55,8 @@ class Animator {
         this.interval = 90;
         this.arrivalTime = 50;
     }
-    addClickAction(element) {
-        for (const td of element) {
+    addClickAction(elements) {
+        for (const td of elements) {
             if (td.tagName !== 'TD') {
                 continue;
             }
@@ -82,12 +82,8 @@ class Animator {
             const nextPosX = posX + step;
             setTimeout(loop, this.arrivalTime, nextPosX, posY, step);
         };
-        for (const startTime of [0, 100]) {
-            setTimeout(() => {
-                loop(this.posX, this.posY, 1);
-                loop(this.posX, this.posY, -1);
-            }, startTime);
-        }
+        loop(this.posX, this.posY, 1);
+        loop(this.posX, this.posY, -1);
     }
     splash(posX, posY, number) {
         const calcCircle = (y) => {
