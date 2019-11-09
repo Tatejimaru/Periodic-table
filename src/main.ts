@@ -100,7 +100,7 @@ class Animator {
         const dx = x - this.posX;
         const dy = y - this.posY;
         const dr = Math.sqrt(dx ** 2 + dy ** 2);
-        times[y][x] = Math.log(dr - 1) / this.speed;
+        times[y][x] = Math.log(dr + 1) / this.speed;
       }
     }
     return times;
