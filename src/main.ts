@@ -67,8 +67,8 @@ class Animator {
   constructor() {
     this.posX = 0;
     this.posY = 0;
-    this.speed = 15e-3;
-    this.thickness = 60;
+    this.speed = 5e-3;
+    this.thickness = 150;
   }
 
   public addClickAction(elements: NodeListOf<HTMLElement>): void {
@@ -100,7 +100,7 @@ class Animator {
         const dx = x - this.posX;
         const dy = y - this.posY;
         const dr = Math.sqrt(dx ** 2 + dy ** 2);
-        times[y][x] = dr / this.speed;
+        times[y][x] = Math.log(dr - 1) / this.speed;
       }
     }
     return times;
@@ -110,9 +110,9 @@ class Animator {
     for (const [y, value] of this.times.entries()) {
       for (const [x, time] of value.entries()){
         setTimeout(this.color, time + this.thickness * 0, y, x, 'rainbow_0', true);
-        setTimeout(this.color, time + this.thickness * 2, y, x, 'rainbow_0', false);
-        setTimeout(this.color, time + this.thickness * 2, y, x, 'rainbow_1', true);
-        setTimeout(this.color, time + this.thickness * 3, y, x, 'rainbow_1', false);
+        setTimeout(this.color, time + this.thickness * 1, y, x, 'rainbow_0', false);
+        setTimeout(this.color, time + this.thickness * 1, y, x, 'rainbow_1', true);
+        setTimeout(this.color, time + this.thickness * 2, y, x, 'rainbow_1', false);
       }
     }  
   }
@@ -122,11 +122,10 @@ class Animator {
       return;
     }
     const element = document.querySelector(`td[data-x="${x + 1}"][data-y="${y + 1}"]`);
-    if (isColor){
-      element.classList.add(colorName);      
+    if (isColor) {
+      element.classList.add(colorName);
     }
-    else
-    {
+    else {
       element.classList.remove(colorName);
     }
   }
@@ -156,7 +155,8 @@ class PeriodicTable {
 
     if (this.x < this.groupSize) {
       this.x++;
-    } else {
+    }
+    else {
       this.tableContainer += '</tr><tr>';
       this.x = 1;
       this.y++;

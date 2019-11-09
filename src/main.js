@@ -51,8 +51,8 @@ class Animator {
     constructor() {
         this.posX = 0;
         this.posY = 0;
-        this.speed = 15e-3;
-        this.thickness = 60;
+        this.speed = 5e-3;
+        this.thickness = 150;
     }
     addClickAction(elements) {
         for (const td of elements) {
@@ -81,7 +81,7 @@ class Animator {
                 const dx = x - this.posX;
                 const dy = y - this.posY;
                 const dr = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-                times[y][x] = dr / this.speed;
+                times[y][x] = Math.log(dr - 1) / this.speed;
             }
         }
         return times;
@@ -90,9 +90,9 @@ class Animator {
         for (const [y, value] of this.times.entries()) {
             for (const [x, time] of value.entries()) {
                 setTimeout(this.color, time + this.thickness * 0, y, x, 'rainbow_0', true);
-                setTimeout(this.color, time + this.thickness * 2, y, x, 'rainbow_0', false);
-                setTimeout(this.color, time + this.thickness * 2, y, x, 'rainbow_1', true);
-                setTimeout(this.color, time + this.thickness * 3, y, x, 'rainbow_1', false);
+                setTimeout(this.color, time + this.thickness * 1, y, x, 'rainbow_0', false);
+                setTimeout(this.color, time + this.thickness * 1, y, x, 'rainbow_1', true);
+                setTimeout(this.color, time + this.thickness * 2, y, x, 'rainbow_1', false);
             }
         }
     }
