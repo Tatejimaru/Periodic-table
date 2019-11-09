@@ -84,7 +84,7 @@ body
 .periodic_table
 {
     width: 1350px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     margin-left: auto;
     margin-right: auto;
 
@@ -138,93 +138,93 @@ body
     background-color: #37474f;
 }
 
-.splash_0[data-y='1']
+.rainbow_0[data-y='1']
 {
     color: var(--p1);
     border-color: var(--p1);
 }
-.splash_0[data-y='2']
+.rainbow_0[data-y='2']
 {
     color: var(--p2);
     border-color: var(--p2);
 }
-.splash_0[data-y='3']
+.rainbow_0[data-y='3']
 {
     color: var(--p3);
     border-color: var(--p3);
 }
-.splash_0[data-y='4']
+.rainbow_0[data-y='4']
 {
     color: var(--p4);
     border-color: var(--p4);
 }
-.splash_0[data-y='5']
+.rainbow_0[data-y='5']
 {
     color: var(--p5);
     border-color: var(--p5);
 }
-.splash_0[data-y='6']
+.rainbow_0[data-y='6']
 {
     color: var(--p6);
     border-color: var(--p6);
 }
-.splash_0[data-y='7']
+.rainbow_0[data-y='7']
 {
     color: var(--p7);
     border-color: var(--p7);
 }
-.splash_0[data-y='8']
+.rainbow_0[data-y='8']
 {
     color: var(--p8);
     border-color: var(--p8);
 }
-.splash_0[data-y='9']
+.rainbow_0[data-y='9']
 {
     color: var(--p9);
     border-color: var(--p9);
 }
 
-.splash_1[data-y='1']
+.rainbow_1[data-y='1']
 {
     color: var(--p1_1);
     border-color: var(--p1_1);
 }
-.splash_1[data-y='2']
+.rainbow_1[data-y='2']
 {
     color: var(--p2_1);
     border-color: var(--p2_1);
 }
-.splash_1[data-y='3']
+.rainbow_1[data-y='3']
 {
     color: var(--p3_1);
     border-color: var(--p3_1);
 }
-.splash_1[data-y='4']
+.rainbow_1[data-y='4']
 {
     color: var(--p4_1);
     border-color: var(--p4_1);
 }
-.splash_1[data-y='5']
+.rainbow_1[data-y='5']
 {
     color: var(--p5_1);
     border-color: var(--p5_1);
 }
-.splash_1[data-y='6']
+.rainbow_1[data-y='6']
 {
     color: var(--p6_1);
     border-color: var(--p6_1);
 }
-.splash_1[data-y='7']
+.rainbow_1[data-y='7']
 {
     color: var(--p7_1);
     border-color: var(--p7_1);
 }
-.splash_1[data-y='8']
+.rainbow_1[data-y='8']
 {
     color: var(--p8_1);
     border-color: var(--p8_1);
 }
-.splash_1[data-y='9']
+.rainbow_1[data-y='9']
 {
     color: var(--p9_1);
     border-color: var(--p9_1);

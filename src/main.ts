@@ -61,15 +61,14 @@ class TableGenerater {
 class Animator {
   posX: number;
   posY: number;
-  layers: number;
-  interval: number;
-  arrivalTime: number;
+  speed: number;
+  thickness: number;
+  times: number[][];
   constructor() {
     this.posX = 0;
     this.posY = 0;
-    this.layers = 2;
-    this.interval = 90;
-    this.arrivalTime = 50;
+    this.speed = 15e-3;
+    this.thickness = 60;
   }
 
   public addClickAction(elements: NodeListOf<HTMLElement>): void {
@@ -82,58 +81,53 @@ class Animator {
         while (target.tagName !== 'TD') {
           target = target.parentNode as HTMLElement;
         }
-        this.posX = Number(target.dataset.x);
-        this.posY = Number(target.dataset.y);
-        this.makeSplash();
+        this.posX = Number(target.dataset.x) - 1;
+        this.posY = Number(target.dataset.y) - 1;
+        this.times = this.bookWaveTime();
+        this.makeWave();
       }, false);
     }
   }
 
-  private makeSplash(): void {
-    const loop = (posX: number, posY: number, step: number) => {
-      if (posX < 0 || posX > 18 + 1) {
-        return;
-      }
-      for (let layer = 0; layer <= this.layers; ++layer) {
-        setTimeout(this.splash, this.interval * layer, posX, posY, layer);
-      }
-      const nextPosX = posX + step;
-      setTimeout(loop, this.arrivalTime, nextPosX, posY, step);
+  private bookWaveTime(): number[][]{
+    let times = new Array(9);
+    for (let i = 0; i < 9; ++i){
+      times[i] = new Array(18).fill(9999);
     }
 
-    loop(this.posX, this.posY, 1);
-    loop(this.posX, this.posY, -1);
+    for (let y = 0; y < 9; ++y) {
+      for (let x = 0; x < 18; ++x) {
+        const dx = x - this.posX;
+        const dy = y - this.posY;
+        const dr = Math.sqrt(dx ** 2 + dy ** 2);
+        times[y][x] = dr / this.speed;
+      }
+    }
+    return times;
   }
 
-  private splash(posX: number, posY: number, number: number) {
-    const calcCircle = (y: number) => {
-      const width = 100;
-      const radius = 100;
-      const drdy = Math.sqrt(10);
-      const circle = [];
-
-      for (let period = 0; period < 9; ++period) {
-        const dy = period - y + 1
-        circle.push((radius - Math.sqrt(radius ** 2 - (drdy * dy) ** 2)) * width);
+  private makeWave(): void {
+    for (const [y, value] of this.times.entries()) {
+      for (const [x, time] of value.entries()){
+        setTimeout(this.color, time + this.thickness * 0, y, x, 'rainbow_0', true);
+        setTimeout(this.color, time + this.thickness * 2, y, x, 'rainbow_0', false);
+        setTimeout(this.color, time + this.thickness * 2, y, x, 'rainbow_1', true);
+        setTimeout(this.color, time + this.thickness * 3, y, x, 'rainbow_1', false);
       }
-      return circle;
-    }
-    const splashShape = calcCircle(posY);
+    }  
+  }
 
-    for (const [period, startTime] of splashShape.entries()) {
-      setTimeout(() => {
-        const element: HTMLElement = document.querySelector(`td[data-x="${posX}"][data-y="${period + 1}"]`);
-        if (!element) {
-          return;
-        }
-        if (number !== this.layers) {
-          element.classList.add(`splash_${number}`);
-        }
-        const isColoerd = element.classList.contains(`splash_${number - 1}`);
-        if (isColoerd) {
-          element.classList.remove(`splash_${number - 1}`);
-        }
-      }, startTime);
+  private color(y: number, x: number, colorName: string, isColor: boolean): void {
+    if (x < 0 || x >= 18 || y < 0 || y >= 9) {
+      return;
+    }
+    const element = document.querySelector(`td[data-x="${x + 1}"][data-y="${y + 1}"]`);
+    if (isColor){
+      element.classList.add(colorName);      
+    }
+    else
+    {
+      element.classList.remove(colorName);
     }
   }
 }
