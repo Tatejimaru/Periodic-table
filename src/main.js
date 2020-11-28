@@ -52,7 +52,7 @@ class Animator {
         this.posX = 0;
         this.posY = 0;
         this.speed = 3e-3;
-        this.thickness = 120;
+        this.thickness = 150;
     }
     addClickAction(elements) {
         for (const td of elements) {
