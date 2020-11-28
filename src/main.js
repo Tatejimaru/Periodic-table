@@ -51,8 +51,8 @@ class Animator {
     constructor() {
         this.posX = 0;
         this.posY = 0;
-        this.speed = 5e-3;
-        this.thickness = 150;
+        this.speed = 3e-3;
+        this.thickness = 120;
     }
     addClickAction(elements) {
         for (const td of elements) {
@@ -81,7 +81,8 @@ class Animator {
                 const dx = x - this.posX;
                 const dy = y - this.posY;
                 const dr = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-                times[y][x] = Math.log(dr + 1) / this.speed;
+                // times[y][x] = Math.log(dr + 1) / Math.log(2.1) / this.speed;
+                times[y][x] = 1.1 ** dr / this.speed;
             }
         }
         return times;
@@ -134,7 +135,8 @@ class PeriodicTable {
         }
     }
     pushEmptyTd() {
-        const emptyTd = `<td data-x="${this.x}" data-y="${this.y}" data-type="empty">+</td>`;
+        const symbol = '+'
+        const emptyTd = `<td data-x="${this.x}" data-y="${this.y}" data-type="empty">${symbol}</td>`;
         this.tableContainer += emptyTd;
         this.x++;
     }

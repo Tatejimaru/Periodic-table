@@ -89,6 +89,7 @@ body
     text-align: center;
 
     border: solid 1px antiquewhite;
+    user-select: none;
 }
 
 .periodic_table th
