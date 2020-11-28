@@ -66,6 +66,11 @@ body
     margin-right:3px;
 }
 
+#periodic_table_box
+{
+    overflow-x: auto;
+}
+
 .periodic_table
 {
     width: 1350px;
