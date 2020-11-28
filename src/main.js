@@ -52,7 +52,7 @@ class Animator {
         this.posX = 0;
         this.posY = 0;
         this.speed = 3e-3;
-        this.thickness = 150;
+        this.thickness = 160;
     }
     addClickAction(elements) {
         for (const td of elements) {
@@ -82,7 +82,7 @@ class Animator {
                 const dy = y - this.posY;
                 const dr = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
                 // times[y][x] = Math.log(dr + 1) / Math.log(2.1) / this.speed;
-                times[y][x] = 1.1 ** dr / this.speed;
+                times[y][x] = 1.1 ** dr / this.speed - 300;
             }
         }
         return times;
